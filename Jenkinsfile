@@ -1,25 +1,32 @@
 pipeline {
     agent any
+
     stages {
+
         stage('Checkout') {
             steps {
-               checkout scm
+                checkout scm
             }
         }
-        stage('Installation Dependancies') {
-            steps {
-               sh 'pip install -r app/requirements.txt'
-               sh 'pip install pytest'
-            }
-        }
+
         stage('Unit Test') {
+            agent {
+                docker {
+                    image 'python:3.12-slim'
+                    reuseNode true
+                }
+            }
+
             steps {
-               sh 'pytest'
+                sh 'pip install --no-cache-dir -r app/requirements.txt'
+                sh 'pip install --no-cache-dir pytest'
+                sh 'pytest'
             }
         }
-        stage('Docker build') {
+
+        stage('Docker Build') {
             steps {
-               sh 'docker build -t devops-demo-project:${BUILD_NUMBER} .'
+                sh 'docker build -t devops-demo-app:${BUILD_NUMBER} .'
             }
         }
     }
