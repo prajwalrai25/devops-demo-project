@@ -18,9 +18,12 @@ pipeline {
             }
 
             steps {
-                sh 'pip install --no-cache-dir -r app/requirements.txt'
-                sh 'pip install --no-cache-dir pytest'
-                sh 'pytest'
+                sh '''
+                  python -m venv .venv
+                  .venv/bin/pip install --no-cache-dir -r app/requirements.txt
+                  .venv/bin/pip install --no-cache-dir pytest
+                  .venv/bin/pytest
+                 '''
             }
         }
 
