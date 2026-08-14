@@ -27,6 +27,18 @@ pipeline {
             }
         }
 
+        stage('SonarQube Scan') {
+              steps {
+                  withSonarQubeEnv('SonarQube') {
+                     sh '''
+                         sonar-scanner \
+                          -Dsonar.projectKey=devops-demo-app \
+                          -Dsonar.sources=app
+                     '''
+                  }
+              }
+         }
+
         stage('Docker Build') {
             steps {
                 sh 'docker build -t devops-demo-app:${BUILD_NUMBER} .'
