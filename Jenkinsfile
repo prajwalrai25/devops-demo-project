@@ -29,12 +29,15 @@ pipeline {
 
         stage('SonarQube Scan') {
               steps {
-                  withSonarQubeEnv('SonarQube') {
-                     sh '''
-                         sonar-scanner \
-                          -Dsonar.projectKey=devops-demo-app \
-                          -Dsonar.sources=app
-                     '''
+                 script {
+                      def sonarhome = tool 'SonarScanner'
+                      withSonarQubeEnv('SonarQube') {
+                         sh '''
+                             ${sonarhome}/bin/sonar-scanner \
+                             -Dsonar.projectKey=devops-demo-app \
+                             -Dsonar.sources=app
+                         '''
+                      }
                   }
               }
          }
