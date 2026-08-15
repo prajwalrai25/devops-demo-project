@@ -38,6 +38,7 @@ pipeline {
                              -Dsonar.sources=app
                          """
                       }
+                     waitForQualityGate abortPipeline:true
                   }
               }
          }
