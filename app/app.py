@@ -6,7 +6,6 @@ app = Flask(__name__)
 @app.route("/")
 def home():
     return "Hello from my DevOps application!"
-    print("this line can never be executed")
 
 
 @app.route("/health")
