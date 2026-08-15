@@ -48,5 +48,18 @@ pipeline {
                 sh 'docker build -t devops-demo-app:${BUILD_NUMBER} .'
             }
         }
+       
+       stage('Trivy Scan') {
+            steps {
+              sh '''
+                 docker run --rm \
+                 -v /var/run/docker.sock:/var/run/docker.sock \
+                 aquasec/trivy:latest image \
+                 --severity HIGH,CRITICAL \
+                 --exit-code 1 \
+                 devops-demo-app:${BUILD_NUMBER}
+               '''
+            }
+        }
     }
 }
