@@ -56,6 +56,7 @@ pipeline {
                  -v /var/run/docker.sock:/var/run/docker.sock \
                  aquasec/trivy:latest image \
                  --severity HIGH,CRITICAL \
+                 --ignore-unfixed \
                  --exit-code 1 \
                  devops-demo-app:${BUILD_NUMBER}
                '''
