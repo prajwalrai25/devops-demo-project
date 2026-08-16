@@ -88,6 +88,23 @@ pipeline {
                }
 
             }
-        } 
+        }
+        
+       stage('Image digest capture') {
+           steps {
+              script {
+                 env.IMAGE_DIGEST=sh(
+                    script: """
+                        docker inspect --format='{{index .RepoDigests 0}}' \
+                        prajj29/devops-demo-app:${BUILD_NUMBER} \
+                     """,
+                     returnStdout: true
+                 ).trim()
+                 
+                 echo "Image digest:${env.IMAGE_DIGEST}"
+               }
+            }
+      }
+                          
     }
 }
