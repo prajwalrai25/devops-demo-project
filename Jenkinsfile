@@ -62,5 +62,15 @@ pipeline {
                '''
             }
         }
+
+        stage('Docker push') {
+           steps {
+              sh '''
+                 docker tag devops-demo-app:${BUILD_NUMBER} \
+                 prajj29/devops-demo-app:${BUILD_NUMBER} 
+                 docker push prajj29/devops-demo-app:${BUILD_NUMBER}
+              '''
+           }
+        } 
     }
 }
