@@ -65,12 +65,29 @@ pipeline {
 
         stage('Docker push') {
            steps {
-              sh '''
-                 docker tag devops-demo-app:${BUILD_NUMBER} \
-                 prajj29/devops-demo-app:${BUILD_NUMBER} 
-                 docker push prajj29/devops-demo-app:${BUILD_NUMBER}
-              '''
-           }
+              withCredentials([
+                  usernamePassword(
+                      credentialsId:'dockerhub-id',
+                      usernameVariable:'DOCKER_USERNAME',
+                      passwordVariable:'DOCKER_TOKEN'
+                  )
+              ])
+                {
+                  sh '''
+                      echo "$DOCKER_TOKEN" | docker login \
+                       -u "$DOCKER_USERNAME" \
+                       --password-stdin
+                 
+                      docker tag devops-demo-app:${BUILD_NUMBER} \
+                      prajj29/devops-demo-app:${BUILD_NUMBER} 
+                  
+                      docker push prajj29/devops-demo-app:${BUILD_NUMBER}
+
+                      docker logout
+                '''
+               }
+
+            }
         } 
     }
 }
