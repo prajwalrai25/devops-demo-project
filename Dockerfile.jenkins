@@ -3,4 +3,6 @@ USER root
 RUN apt-get update \
 && apt-get install -y docker.io \
 && rm -rf /var/lib/apt/lists/*
+COPY cosign /usr/local/bin/cosign
+RUN chmod +x /usr/local/bin/cosign
 USER jenkins
