@@ -109,6 +109,12 @@ pipeline {
      stage("Cosign Image Digest") {
          steps {
            withCredentials([
+               usernamePassword(
+                   credentialsId:'dockerhub-id',
+                   usernameVariable:'DOCKER_USERNAME',
+                   passwordVariable:'DOCKER_TOKEN'
+               ),
+               
                file(
                    credentialsId:'cosign-private-key',
                    variable:'COSIGN_KEY'
@@ -120,6 +126,7 @@ pipeline {
               )
            ]) {
                sh '''
+                 echo "$DOCKER_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin
                  cosign sign \
                   --key "$COSIGN_KEY" \
                   "$IMAGE_DIGEST"
