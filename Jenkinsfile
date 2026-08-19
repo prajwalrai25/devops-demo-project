@@ -112,7 +112,12 @@ pipeline {
                file(
                    credentialsId:'cosign-private-key',
                    variable:'COSIGN_KEY'
-               )
+               ),
+               
+              string(
+                  credentialsId:'cosign-key-password',
+                  variable:'COSIGN_PASSWORD'
+              )
            ]) {
                sh '''
                  cosign sign \
