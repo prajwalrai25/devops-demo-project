@@ -139,7 +139,7 @@ pipeline {
          steps {
              withCredentials([
                file(
-                 credentialsId:'cosign-public-key'
+                 credentialsId:'cosign-public-key',
                  variable:'COSIGN_PUBLIC_KEY'
                )
              ]) {
