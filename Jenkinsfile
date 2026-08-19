@@ -105,6 +105,23 @@ pipeline {
                }
             }
       }
-                          
+     
+     stage("Cosign Image Digest") {
+         steps {
+           withCredentials([
+               file(
+                   credentialsId:'cosign.key'.
+                   variable:'COSIGN_KEY'
+               )
+           ]) {
+               sh '''
+                 cosign sign \
+                  --key "$COSIGN_KEY" \
+                  "$IMAGE_DIGEST"
+               '''
+              }
+         }
+     }
+             
     }
 }
