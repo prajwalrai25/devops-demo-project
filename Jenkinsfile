@@ -134,6 +134,21 @@ pipeline {
               }
          }
      }
+  
+     stage('Cosign verification') {
+         steps {
+             withCredentials([
+               file(
+                 credentialsId:'cosign-public-key'
+                 variable:'COSIGN_PUBLIC_KEY'
+               )
+             ]) {
+                  sh '''
+                    cosign verify --key "$COSIGN_PUBLIC_KEY" "$IMAGE_DIGEST"
+                  '''
+                }
+         }
+     }
              
     }
 }
