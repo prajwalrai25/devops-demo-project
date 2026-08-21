@@ -1,0 +1,4 @@
+image:
+  repository: prajj29/devops-demo-app
+  digest: "sha256:57e2a9de1d3702f57621b2724c789b12b43341b95b3321ffefc511d3d22cd4b3"
+  pullPolicy: IfNotPresent   

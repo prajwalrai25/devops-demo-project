@@ -1,0 +1,18 @@
+replicaCount: 1
+
+image: 
+  repository: prajj29/devops-demo-app
+  digest: ""
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 5000
+  targetPort: 5000
+
+route:
+  enabled: true
+  host: ""
+
+resources: {}
+
